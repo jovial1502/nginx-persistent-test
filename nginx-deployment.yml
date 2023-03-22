@@ -4,8 +4,8 @@ metadata:
   namespace: apps-nginx-persistent-test
   name: nginx-persistent-test
   annotations: {}
-labels:
-  app: nginx-persistent-test
+  labels:
+    app: nginx-persistent-test
 spec:
   selector:
     matchLabels:
@@ -16,12 +16,19 @@ spec:
       labels:
         app: nginx-persistent-test
     spec:
+      volumes:
+      - name: pers-storage
+        persistentVolumeClaim:
+          claimName: nginx-persistent-test      
       containers:
         - name: container
           image: 'nginx:latest'
           ports:
             - containerPort: 80
               protocol: TCP
+          volumeMounts:
+            - name: pers-storage
+              mountPath: /usr/share/nginx/html
   strategy:
     type: RollingUpdate
     rollingUpdate:
