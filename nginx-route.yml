@@ -1,0 +1,16 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: nginx-persistent-test
+  namespace: apps-nginx-persistent-test
+  labels:
+    app: nginx-persistent-test
+spec:
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: nginx-persistent-test
+    weight: 100
+  port:
+    targetPort: nginx-http
